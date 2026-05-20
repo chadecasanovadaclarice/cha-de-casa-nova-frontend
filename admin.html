@@ -247,42 +247,53 @@
   }
 
   async function editarProduto() {
-    const id = document.getElementById('editId').value;
-    const nome = document.getElementById('editNome').value.trim();
-    const preco = parseFloat(document.getElementById('editPreco').value);
-    const status = document.getElementById('editStatus').value;
-    if (!nome || isNaN(preco) || preco <= 0) {
-      alert('Preencha nome e preço válidos.');
-      return;
-    }
-    const token = getToken();
-    const url = `/api/admin/produtos?id=${id}&token=${token}`;
-    try {
-      const response = await fetch(url, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nome, preco, status })
-      });
-      if (!response.ok) throw new Error('Erro ao editar');
-      fecharModal('modalEditar');
-      carregarProdutos();
-    } catch (error) {
-      alert('Erro ao editar produto: ' + error.message);
-    }
+  const id = document.getElementById('editId').value;
+  const nome = document.getElementById('editNome').value.trim();
+  const preco = parseFloat(document.getElementById('editPreco').value);
+  const status = document.getElementById('editStatus').value;
+  
+  if (!nome || isNaN(preco) || preco <= 0) {
+    alert('Preencha nome e preço válidos.');
+    return;
   }
+  
+  const token = getToken();
+  const url = `https://cha-de-casa-nova-backend.vercel.app/api/admin/produtos?token=${token}`;  // ✅ URL completa
+  
+  try {
+    const response = await fetch(url, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, nome, preco, status })  // ✅ id NO BODY
+    });
+    
+    if (!response.ok) throw new Error('Erro ao editar');
+    fecharModal('modalEditar');
+    carregarProdutos();
+  } catch (error) {
+    alert('Erro ao editar produto: ' + error.message);
+  }
+}
 
-  async function deletarProduto(id) {
-    if (!confirm('Tem certeza que deseja deletar este produto?')) return;
-    const token = getToken();
-    const url = `/api/admin/produtos?id=${id}&token=${token}`;
-    try {
-      const response = await fetch(url, { method: 'DELETE' });
-      if (!response.ok) throw new Error('Erro ao deletar');
-      carregarProdutos();
-    } catch (error) {
-      alert('Erro ao deletar produto: ' + error.message);
-    }
+async function deletarProduto(id) {
+  if (!confirm('Tem certeza que deseja deletar este produto?')) return;
+  
+  const token = getToken();
+  const url = `https://cha-de-casa-nova-backend.vercel.app/api/admin/produtos?token=${token}`;  // ✅ URL completa
+  
+  try {
+    const response = await fetch(url, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id })  // ✅ id NO BODY
+    });
+    
+    if (!response.ok) throw new Error('Erro ao deletar');
+    carregarProdutos();
+  } catch (error) {
+    alert('Erro ao deletar produto: ' + error.message);
   }
+}
 
   // Verifica se já está logado ao carregar a página
   window.onload = function() {
