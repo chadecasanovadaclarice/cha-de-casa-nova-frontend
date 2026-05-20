@@ -166,49 +166,53 @@
     `;
   }
 
-  async function carregarHistorico() {
-    const data = await fetchAPI('doacoes');
-    if (!data) return;
+async function carregarHistorico() {
+  const data = await fetchAPI('doacoes');
+  if (!data) return;
   
-    // Converter objeto em array
-    const doacoesArray = data && typeof data === 'object' ? Object.values(data) : [];
+  // Converter objeto Firebase em array preservando IDs
+  const doacoesArray = data && typeof data === 'object' 
+    ? Object.entries(data).map(([id, doacao]) => ({ id, ...doacao }))
+    : [];
   
-    const tbody = document.querySelector('#historicoTable tbody');
-    tbody.innerHTML = doacoesArray.map(d => `
-      <tr>
-        <td>${d.id}</td>
-        <td>${d.nome}</td>
-        <td>${d.email}</td>
-        <td>R$ ${d.total.toFixed(2)}</td>
-        <td>${new Date(d.data).toLocaleDateString('pt-BR')}</td>
-        <td>${d.itens}</td>
-      </tr>
-    `).join('');
-  }
+  const tbody = document.querySelector('#historicoTable tbody');
+  tbody.innerHTML = doacoesArray.map(d => `
+    <tr>
+      <td>${d.id}</td>
+      <td>${d.nome}</td>
+      <td>${d.email}</td>
+      <td>R$ ${d.total.toFixed(2)}</td>
+      <td>${new Date(d.data).toLocaleDateString('pt-BR')}</td>
+      <td>${d.itens ? d.itens.length : 0}</td>
+    </tr>
+  `).join('');
+}
 
-  async function carregarProdutos() {
-    const data = await fetchAPI('produtos');
-    if (!data) return;
+async function carregarProdutos() {
+  const data = await fetchAPI('produtos');
+  if (!data) return;
   
-    // Converter objeto em array
-    const produtosArray = data && typeof data === 'object' ? Object.values(data) : [];
+  // Converter objeto Firebase em array preservando IDs
+  const produtosArray = data && typeof data === 'object' 
+    ? Object.entries(data).map(([id, produto]) => ({ id, ...produto }))
+    : [];
   
-    const tbody = document.querySelector('#produtosTable tbody');
-    tbody.innerHTML = produtosArray.map(p => `
-      <tr>
-        <td>${p.id}</td>
-        <td>${p.nome}</td>
-        <td>R$ ${p.preco.toFixed(2)}</td>
-        <td>${p.cotas_totais}</td>
-        <td>${p.cotas_vendidas}</td>
-        <td>${p.status}</td>
-        <td>
-          <button class="btn btn-secondary" onclick="abrirModalEditar(${p.id}, '${p.nome.replace(/'/g, "\\'")}', ${p.preco}, '${p.status}')">Editar</button>
-          <button class="btn btn-danger" onclick="deletarProduto(${p.id})">Deletar</button>
-        </td>
-      </tr>
-    `).join('');
-  }
+  const tbody = document.querySelector('#produtosTable tbody');
+  tbody.innerHTML = produtosArray.map(p => `
+    <tr>
+      <td>${p.id}</td>
+      <td>${p.nome}</td>
+      <td>R$ ${p.preco.toFixed(2)}</td>
+      <td>${p.cotas_totais || 0}</td>
+      <td>${p.cotas_vendidas || 0}</td>
+      <td>${p.status || 'N/A'}</td>
+      <td>
+        <button class="btn-editar" onclick="abrirModalEditar('${p.id}', '${p.nome}', ${p.preco}, '${p.status}')">Editar</button>
+        <button class="btn-deletar" onclick="deletarProduto('${p.id}')">Deletar</button>
+      </td>
+    </tr>
+  `).join('');
+}
 
   function abrirModalAdicionar() {
     document.getElementById('addNome').value = '';
