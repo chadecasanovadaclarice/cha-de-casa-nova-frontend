@@ -1,334 +1,322 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chá de Casa Nova</title>
-<style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: Arial, sans-serif; background: #f7f1e3; padding: 20px; color: #333; }
-.container { max-width: 1200px; margin: 0 auto; }
-h1 { text-align: center; color: #8b4513; margin-bottom: 30px; }
-#produtos { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-bottom: 40px; }
-.produto { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: 2px solid #d2b48c; transition: transform 0.2s; }
-.produto:hover { transform: translateY(-5px); }
-.produto h3 { color: #8b4513; margin-bottom: 8px; }
-.preco { font-size: 1.2rem; font-weight: bold; color: #2e8b57; margin-bottom: 10px; }
-.cotas-info { font-size: 0.9rem; color: #555; margin-bottom: 8px; }
-.barra-progresso { background: #e0e0e0; border-radius: 20px; height: 12px; overflow: hidden; margin-bottom: 10px; }
-.barra-preenchida { height: 100%; background: #2e8b57; transition: width 0.3s; }
-.input-group { display: flex; align-items: center; gap: 8px; margin: 10px 0; }
-.input-group label { font-size: 0.9rem; }
-.input-group input { width: 80px; padding: 6px 8px; border: 2px solid #d2b48c; border-radius: 8px; font-size: 1rem; text-align: center; }
-.total-reais { font-weight: bold; color: #8b4513; margin: 8px 0; }
-.btn-add { background: #2e8b57; color: #fff; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer; font-size: 1rem; width: 100%; transition: background 0.2s; }
-.btn-add:hover { background: #236b43; }
-.btn-add:disabled { background: #aaa; cursor: not-allowed; }
-.esgotado { opacity: 0.6; pointer-events: none; }
-#carrinho { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: 2px solid #d2b48c; margin-bottom: 30px; }
-#carrinho h2 { color: #8b4513; margin-bottom: 15px; }
-.item-carrinho { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee; }
-.item-carrinho:last-child { border-bottom: none; }
-.item-info { flex: 1; }
-.item-info span { display: block; }
-.item-nome { font-weight: bold; }
-.item-detalhes { font-size: 0.9rem; color: #555; }
-.btn-remover { background: #c0392b; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.9rem; }
-.btn-remover:hover { background: #a93226; }
-#total-carrinho { font-size: 1.2rem; font-weight: bold; text-align: right; margin-top: 10px; color: #8b4513; }
-#btn-finalizar { background: #8b4513; color: #fff; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-size: 1.1rem; width: 100%; margin-top: 15px; transition: background 0.2s; }
-#btn-finalizar:hover { background: #6f3610; }
-.modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; z-index: 1000; }
-.modal-overlay.ativo { display: flex; }
-.modal { background: #fff; border-radius: 12px; padding: 30px; max-width: 500px; width: 90%; box-shadow: 0 10px 20px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; }
-.modal h2 { color: #8b4513; margin-bottom: 20px; }
-.modal p { margin: 10px 0; }
-.pix-info { background: #f9f9f9; padding: 15px; border-radius: 8px; margin: 15px 0; line-height: 1.6; }
-.btn-copiar, .btn-confirmar, .btn-enviar { background: #2e8b57; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 1rem; margin-top: 10px; transition: background 0.2s; }
-.btn-copiar:hover, .btn-confirmar:hover, .btn-enviar:hover { background: #236b43; }
-.btn-fechar { background: #c0392b; color: #fff; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; float: right; font-size: 0.9rem; }
-.form-cadastro { margin-top: 20px; }
-.form-cadastro input { width: 100%; padding: 10px; margin: 8px 0; border: 2px solid #d2b48c; border-radius: 8px; font-size: 1rem; }
-.form-cadastro label { font-weight: bold; }
-.erro { color: red; font-size: 0.9rem; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chá de Casa Nova - Clarice Moreira Pinheiro</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; background: #faf3e0; color: #333; padding: 20px; }
+    h1 { text-align: center; color: #8b4513; margin-bottom: 20px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .progresso { background: #fff; border-radius: 8px; padding: 20px; margin-bottom: 30px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .barra { background: #ddd; border-radius: 20px; height: 30px; overflow: hidden; }
+    .preenchimento { height: 100%; background: linear-gradient(90deg, #ff7e5f, #feb47b); width: 0%; transition: width 0.3s; }
+    .meta-text { margin-top: 10px; font-size: 0.9em; color: #555; }
+    .grid-produtos { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+    .produto { background: #fff; border-radius: 8px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: flex; flex-direction: column; }
+    .produto h3 { margin-bottom: 10px; color: #8b4513; }
+    .preco { font-size: 1.2em; font-weight: bold; color: #2e8b57; margin-bottom: 5px; }
+    .cotas { font-size: 0.9em; color: #666; margin-bottom: 15px; }
+    .controles { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .controles button { width: 36px; height: 36px; border: none; border-radius: 50%; font-size: 1.2em; cursor: pointer; background: #8b4513; color: #fff; transition: 0.2s; }
+    .controles button:disabled { background: #ccc; cursor: not-allowed; }
+    .controles span { font-size: 1.1em; min-width: 30px; text-align: center; }
+    .comprar { background: #2e8b57; color: #fff; border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-size: 1em; transition: 0.2s; }
+    .comprar:hover { background: #236b43; }
+    .cart { background: #fff; border-radius: 8px; padding: 20px; margin-top: 30px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .cart h2 { color: #8b4513; margin-bottom: 15px; }
+    .lista-carrinho { list-style: none; padding: 0; }
+    .lista-carrinho li { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee; }
+    .finalizar { background: #d2691e; color: #fff; border: none; padding: 12px 20px; border-radius: 5px; cursor: pointer; font-size: 1.1em; margin-top: 15px; display: block; width: 100%; transition: 0.2s; }
+    .finalizar:hover { background: #a0522d; }
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; }
+    .modal-content { background: #fff; border-radius: 8px; padding: 30px; max-width: 400px; width: 90%; text-align: center; }
+    .modal-content h2 { color: #8b4513; margin-bottom: 20px; }
+    .modal-content p { margin-bottom: 10px; }
+    .modal-content .pix-key { font-size: 1.5em; font-weight: bold; color: #2e8b57; margin: 15px 0; }
+    .btns { display: flex; gap: 10px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
+    .btns button, .btns a { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 1em; transition: 0.2s; }
+    .btns button { background: #8b4513; color: #fff; }
+    .btns button:hover { background: #a0522d; }
+    .btns .secondary { background: #6c757d; }
+    .btns .secondary:hover { background: #5a6268; }
+    .form input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
+    .form button { width: 100%; padding: 10px; background: #2e8b57; color: #fff; border: none; border-radius: 5px; cursor: pointer; font-size: 1em; }
+    .form button:hover { background: #236b43; }
+    .error { color: red; font-size: 0.9em; }
+  </style>
 </head>
 <body>
 <div class="container">
-<h1>Chá de Casa Nova</h1>
-<div id="produtos"></div>
-<div id="carrinho">
-<h2>Carrinho</h2>
-<div id="itens-carrinho"></div>
-<div id="total-carrinho">Total: R$ 0,00</div>
-<button id="btn-finalizar">Finalizar Doação</button>
-</div>
+  <h1>Chá de Casa Nova - Clarice Moreira Pinheiro</h1>
+  <div class="progresso" id="progresso">
+    <div class="barra">
+      <div class="preenchimento" id="preenchimento"></div>
+    </div>
+    <p class="meta-text" id="meta-text">Carregando meta...</p>
+  </div>
+  <div class="grid-produtos" id="grid-produtos"></div>
+  <div class="cart" id="cart-section">
+    <h2>Itens no Carrinho</h2>
+    <ul class="lista-carrinho" id="lista-carrinho"></ul>
+    <p id="cart-total">Total: R$ 0,00</p>
+    <button class="finalizar" id="finalizar-btn" onclick="abrirModalPix()">Finalizar Doação</button>
+  </div>
 </div>
 
 <!-- Modal PIX -->
-<div class="modal-overlay" id="modal-pix">
-<div class="modal">
-<button class="btn-fechar" onclick="fecharModalPix()">X</button>
-<h2>Doação via PIX</h2>
-<div class="pix-info">
-<p><strong>PIX Estático</strong></p>
-<p>Nome: Clarice Moreira Pinheiro</p>
-<p>Chave: 21 99530-9311</p>
-<p id="valor-pix-modal">Valor: R$ 0,00</p>
-</div>
-<button class="btn-copiar" onclick="copiarPix()">Copiar PIX</button>
-<button class="btn-confirmar" onclick="mostrarFormConfirmacao()">Confirmar Pagamento</button>
-</div>
+<div id="modal-pix" class="modal">
+  <div class="modal-content">
+    <h2>Doação via PIX</h2>
+    <p><strong>Clarice Moreira Pinheiro</strong></p>
+    <p>Chave PIX:</p>
+    <p class="pix-key" id="pix-key">21995303711</p>
+    <p>Valor total: <strong id="pix-valor">R$ 0,00</strong></p>
+    <div class="btns">
+      <button onclick="copiarPix()">Copiar Chave</button>
+      <button class="secondary" onclick="abrirModalForm()">Já Paguei</button>
+      <button class="secondary" onclick="fecharModal('modal-pix')">Fechar</button>
+    </div>
+  </div>
 </div>
 
-<!-- Modal Formulário de Confirmação -->
-<div class="modal-overlay" id="modal-form">
-<div class="modal">
-<button class="btn-fechar" onclick="fecharModalForm()">X</button>
-<h2>Confirmar Doação</h2>
-<div class="form-cadastro">
-<label for="nome-doador">Nome Completo: <span class="erro" id="erro-nome"></span></label>
-<input type="text" id="nome-doador" placeholder="Seu nome" required>
-<label for="email-doador">Email: <span class="erro" id="erro-email"></span></label>
-<input type="email" id="email-doador" placeholder="seu@email.com" required>
-<button class="btn-enviar" onclick="enviarDoacao()">Enviar Doação</button>
-</div>
-</div>
+<!-- Modal Formulário -->
+<div id="modal-form" class="modal">
+  <div class="modal-content">
+    <h2>Confirmar Doação</h2>
+    <form id="form-doacao" onsubmit="enviarDoacao(event)">
+      <input type="text" id="nome" placeholder="Seu nome" required>
+      <input type="email" id="email" placeholder="Seu email" required>
+      <button type="submit">Enviar Confirmação</button>
+      <p id="form-message" class="error"></p>
+    </form>
+    <button class="secondary" onclick="fecharModal('modal-form')">Cancelar</button>
+  </div>
 </div>
 
 <script>
-// === Estado global ===
-const state = {
-  produtos: [],
-  carrinho: JSON.parse(localStorage.getItem('carrinho') || '[]')
-};
+  // Global variables
+  let produtos = [];
+  let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+  let userData = JSON.parse(localStorage.getItem('userData')) || {};
+  let meta = 12035;
+  let arrecadado = 0;
 
-const PRODUTOS_URL = 'https://cha-de-casa-nova-backend.vercel.app/api/produtos';
-const STATUS_URL = 'https://cha-de-casa-nova-backend.vercel.app/api/produtos-status';
-const DOACAO_URL = 'https://cha-de-casa-nova-backend.vercel.app/api/doacao';
+  // Fetch products
+  async function carregarProdutos() {
+    try {
+      const res = await fetch('https://cha-de-casa-nova-backend.vercel.app/api/produtos');
+      let data = await res.json();
+      if (!Array.isArray(data)) {
+        data = Object.values(data);
+      }
+      produtos = data.map((p) => ({
+        nome: p.nome,
+        preco: p.preco,
+        cotas_totais: Math.floor(p.preco / 10),
+        cotas_vendidas: p.cotas_vendidas || 0
+      }));
+      renderizarProdutos();
+      atualizarCarrinho();
+    } catch (e) {
+      console.error('Erro ao carregar produtos:', e);
+      document.getElementById('grid-produtos').innerHTML = '<p>Erro ao carregar produtos.</p>';
+    }
+  }
 
-// === Inicialização ===
-document.addEventListener('DOMContentLoaded', () => {
-  carregarDados();
-});
+  // Render products grid
+  function renderizarProdutos() {
+    const grid = document.getElementById('grid-produtos');
+    grid.innerHTML = '';
+    produtos.forEach((p, index) => {
+      const div = document.createElement('div');
+      div.className = 'produto';
+      div.innerHTML = `
+        <h3>${p.nome}</h3>
+        <p class="preco">R$ ${p.preco.toFixed(2)}</p>
+        <p class="cotas">Cotas: vendidas ${p.cotas_vendidas} de ${p.cotas_totais} | disponíveis ${p.cotas_totais - p.cotas_vendidas}</p>
+        <div class="controles">
+          <button id="dec-${index}" onclick="decrementar(${index})">-</button>
+          <span id="qtd-${index}">0</span>
+          <button id="inc-${index}" onclick="incrementar(${index})">+</button>
+        </div>
+        <button class="comprar" onclick="adicionarAoCarrinho(${index})">Comprar</button>
+      `;
+      grid.appendChild(div);
+    });
+  }
 
-async function carregarDados() {
-  try {
-    const [resProdutos, resStatus] = await Promise.all([
-      fetch(PRODUTOS_URL),
-      fetch(STATUS_URL)
-    ]);
-    const dataProdutos = await resProdutos.json();
-    const dataStatus = await resStatus.json();
+  // Quantity controls
+  function decrementar(index) {
+    const span = document.getElementById(`qtd-${index}`);
+    let qtd = parseInt(span.textContent);
+    if (qtd > 0) {
+      qtd--;
+      span.textContent = qtd;
+      atualizarBotoes(index);
+    }
+  }
 
-    // Converte objeto Firebase em array
-    const produtosArray = Object.values(dataProdutos);
-    const statusMap = {};
-    if (dataStatus && typeof dataStatus === 'object') {
-      Object.keys(dataStatus).forEach(key => {
-        const item = dataStatus[key];
-        statusMap[item.nome || key] = item.status;
+  function incrementar(index) {
+    const prod = produtos[index];
+    const span = document.getElementById(`qtd-${index}`);
+    let qtd = parseInt(span.textContent);
+    const disponivel = prod.cotas_totais - prod.cotas_vendidas;
+    if (qtd < disponivel) {
+      qtd++;
+      span.textContent = qtd;
+      atualizarBotoes(index);
+    }
+  }
+
+  function atualizarBotoes(index) {
+    const prod = produtos[index];
+    const qtd = parseInt(document.getElementById(`qtd-${index}`).textContent);
+    const disponivel = prod.cotas_totais - prod.cotas_vendidas;
+    document.getElementById(`dec-${index}`).disabled = (qtd === 0);
+    document.getElementById(`inc-${index}`).disabled = (qtd >= disponivel);
+  }
+
+  // Cart management
+  function adicionarAoCarrinho(index) {
+    const prod = produtos[index];
+    const qtd = parseInt(document.getElementById(`qtd-${index}`).textContent);
+    if (qtd === 0) return;
+    const valor_item = (prod.preco / prod.cotas_totais) * qtd;
+    const itemCarrinho = carrinho.find(item => item.nome === prod.nome);
+    if (itemCarrinho) {
+      itemCarrinho.quantidade_cotas += qtd;
+      itemCarrinho.valor += valor_item;
+    } else {
+      carrinho.push({
+        nome: prod.nome,
+        quantidade_cotas: qtd,
+        valor: valor_item
       });
     }
-
-    state.produtos = produtosArray.map(prod => ({
-      ...prod,
-      status: statusMap[prod.nome] || 'disponivel'
-    }));
-
-    renderizarProdutos();
-    renderizarCarrinho();
-  } catch (error) {
-    console.error('Erro ao carregar dados:', error);
+    localStorage.setItem('carrinho', JSON.stringify(carrinho));
+    // Reset quantity for that product
+    document.getElementById(`qtd-${index}`).textContent = '0';
+    atualizarBotoes(index);
+    atualizarCarrinho();
   }
-}
 
-function renderizarProdutos() {
-  const container = document.getElementById('produtos');
-  container.innerHTML = '';
-
-  state.produtos.forEach((prod, index) => {
-    const disponivel = prod.status !== 'esgotado';
-    const restantes = (prod.cotas_totais || 0) - (prod.cotas_vendidas || 0);
-    const porcentagemVendida = prod.cotas_totais > 0 ? ((prod.cotas_vendidas / prod.cotas_totais) * 100) : 0;
-
-    const div = document.createElement('div');
-    div.className = `produto ${disponivel ? '' : 'esgotado'}`;
-    div.innerHTML = `
-      <h3>${prod.nome}</h3>
-      <p class="preco">R$ ${(prod.preco || 0).toFixed(2)}</p>
-      <p class="cotas-info">Cotas: ${prod.cotas_vendidas || 0} / ${prod.cotas_totais || 0} vendidas</p>
-      <div class="barra-progresso">
-        <div class="barra-preenchida" style="width: ${porcentagemVendida}%;"></div>
-      </div>
-      <div class="input-group">
-        <label>Quantidade:</label>
-        <input type="number" id="qtd-${index}" value="0" min="0" max="${restantes}" ${disponivel ? '' : 'disabled'}>
-      </div>
-      <p class="total-reais" id="total-reais-${index}">Total: R$ 0,00</p>
-      <button class="btn-add" id="btn-add-${index}" ${disponivel ? '' : 'disabled'}>Adicionar ao Carrinho</button>
-    `;
-
-    container.appendChild(div);
-
-    // Eventos
-    const inputQtd = document.getElementById(`qtd-${index}`);
-    const totalReais = document.getElementById(`total-reais-${index}`);
-    const btnAdd = document.getElementById(`btn-add-${index}`);
-
-    inputQtd.addEventListener('input', () => {
-      const qtd = parseInt(inputQtd.value) || 0;
-      totalReais.textContent = `Total: R$ ${(qtd * 10).toFixed(2)}`;
-      btnAdd.disabled = (qtd <= 0 || !disponivel);
+  function atualizarCarrinho() {
+    const lista = document.getElementById('lista-carrinho');
+    const totalEl = document.getElementById('cart-total');
+    lista.innerHTML = '';
+    let total = 0;
+    carrinho.forEach((item, idx) => {
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <span>${item.nome} (${item.quantidade_cotas} cotas)</span>
+        <span>R$ ${item.valor.toFixed(2)}</span>
+      `;
+      lista.appendChild(li);
+      total += item.valor;
     });
+    totalEl.textContent = `Total: R$ ${total.toFixed(2)}`;
+    // Enable/disable finalizar button
+    document.getElementById('finalizar-btn').disabled = (carrinho.length === 0);
+  }
 
-    btnAdd.addEventListener('click', () => {
-      const qtd = parseInt(inputQtd.value);
-      if (qtd > 0 && disponivel) {
-        adicionarAoCarrinho(prod, qtd);
-        inputQtd.value = 0;
-        totalReais.textContent = 'Total: R$ 0,00';
-        btnAdd.disabled = true;
-      }
-    });
+  // PIX Modal
+  function abrirModalPix() {
+    if (carrinho.length === 0) return;
+    const total = carrinho.reduce((acc, item) => acc + item.valor, 0);
+    document.getElementById('pix-valor').textContent = `R$ ${total.toFixed(2)}`;
+    document.getElementById('modal-pix').style.display = 'flex';
+  }
 
-    // Disable add button initially if input 0
-    btnAdd.disabled = true;
-  });
-}
-
-function adicionarAoCarrinho(prod, qtd) {
-  const existente = state.carrinho.find(item => item.nome === prod.nome);
-  if (existente) {
-    existente.quantidade_cotas += qtd;
-  } else {
-    state.carrinho.push({
-      nome: prod.nome,
-      quantidade_cotas: qtd,
-      valor: prod.preco || 10
+  function copiarPix() {
+    const chave = '21995303711';
+    navigator.clipboard.writeText(chave).then(() => {
+      alert('Chave PIX copiada!');
+    }).catch(() => {
+      alert('Erro ao copiar. Copie manualmente: 21995303711');
     });
   }
-  localStorage.setItem('carrinho', JSON.stringify(state.carrinho));
-  renderizarCarrinho();
-}
 
-function renderizarCarrinho() {
-  const container = document.getElementById('itens-carrinho');
-  container.innerHTML = '';
-  let total = 0;
-
-  state.carrinho.forEach((item, index) => {
-    const valorItem = item.quantidade_cotas * 10;
-    total += valorItem;
-
-    const div = document.createElement('div');
-    div.className = 'item-carrinho';
-    div.innerHTML = `
-      <div class="item-info">
-        <span class="item-nome">${item.nome}</span>
-        <span class="item-detalhes">${item.quantidade_cotas} cotas - R$ ${valorItem.toFixed(2)}</span>
-      </div>
-      <button class="btn-remover" onclick="removerDoCarrinho(${index})">Remover</button>
-    `;
-    container.appendChild(div);
-  });
-
-  document.getElementById('total-carrinho').textContent = `Total: R$ ${total.toFixed(2)}`;
-  const btnFinalizar = document.getElementById('btn-finalizar');
-  if (state.carrinho.length === 0) {
-    btnFinalizar.style.display = 'none';
-  } else {
-    btnFinalizar.style.display = 'block';
+  function abrirModalForm() {
+    fecharModal('modal-pix');
+    if (userData.nome) document.getElementById('nome').value = userData.nome;
+    if (userData.email) document.getElementById('email').value = userData.email;
+    document.getElementById('form-message').textContent = '';
+    document.getElementById('modal-form').style.display = 'flex';
   }
-}
 
-function removerDoCarrinho(index) {
-  state.carrinho.splice(index, 1);
-  localStorage.setItem('carrinho', JSON.stringify(state.carrinho));
-  renderizarCarrinho();
-}
-
-// === Modal PIX ===
-document.getElementById('btn-finalizar').addEventListener('click', () => {
-  const total = state.carrinho.reduce((acc, item) => acc + item.quantidade_cotas * 10, 0);
-  document.getElementById('valor-pix-modal').textContent = `Valor: R$ ${total.toFixed(2)}`;
-  document.getElementById('modal-pix').classList.add('ativo');
-});
-
-function fecharModalPix() {
-  document.getElementById('modal-pix').classList.remove('ativo');
-}
-
-function copiarPix() {
-  const texto = 'Chave PIX: 21 99530-9311\nNome: Clarice Moreira Pinheiro';
-  navigator.clipboard.writeText(texto).then(() => {
-    alert('Chave PIX copiada!');
-  }).catch(() => {
-    alert('Erro ao copiar. Copie manualmente.');
-  });
-}
-
-function mostrarFormConfirmacao() {
-  document.getElementById('modal-pix').classList.remove('ativo');
-  // Reset previous errors
-  document.getElementById('erro-nome').textContent = '';
-  document.getElementById('erro-email').textContent = '';
-  document.getElementById('modal-form').classList.add('ativo');
-}
-
-function fecharModalForm() {
-  document.getElementById('modal-form').classList.remove('ativo');
-}
-
-async function enviarDoacao() {
-  const nome = document.getElementById('nome-doador').value.trim();
-  const email = document.getElementById('email-doador').value.trim();
-
-  let valid = true;
-  if (!nome) {
-    document.getElementById('erro-nome').textContent = 'Campo obrigatório';
-    valid = false;
-  } else {
-    document.getElementById('erro-nome').textContent = '';
+  function fecharModal(id) {
+    document.getElementById(id).style.display = 'none';
   }
-  if (!email) {
-    document.getElementById('erro-email').textContent = 'Campo obrigatório';
-    valid = false;
-  } else {
-    document.getElementById('erro-email').textContent = '';
-  }
-  if (!valid) return;
 
-  const dados = {
-    nome,
-    email,
-    itens: state.carrinho.map(item => ({
+  // Submit donation
+  async function enviarDoacao(event) {
+    event.preventDefault();
+    const nome = document.getElementById('nome').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const total = carrinho.reduce((acc, item) => acc + item.valor, 0);
+    const itens = carrinho.map(item => ({
       nome: item.nome,
       quantidade_cotas: item.quantidade_cotas,
-      valor: 10
-    }))
-  };
+      valor: item.valor
+    }));
+    const data = new Date().toISOString();
+    const body = { nome, email, itens, total, data };
 
-  try {
-    const response = await fetch(DOACAO_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(dados)
-    });
-    if (response.ok) {
-      alert('Doação enviada com sucesso!');
-      state.carrinho = [];
-      localStorage.removeItem('carrinho');
-      renderizarCarrinho();
-      fecharModalForm();
-    } else {
-      const err = await response.json();
-      alert('Erro ao enviar: ' + (err.message || 'Erro desconhecido'));
+    try {
+      const res = await fetch('https://cha-de-casa-nova-backend.vercel.app/api/doacao', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+      if (res.ok) {
+        alert('Doação enviada com sucesso!');
+        // Save user data
+        userData = { nome, email };
+        localStorage.setItem('userData', JSON.stringify(userData));
+        // Clear cart
+        carrinho = [];
+        localStorage.removeItem('carrinho');
+        atualizarCarrinho();
+        fecharModal('modal-form');
+      } else {
+        const err = await res.json();
+        document.getElementById('form-message').textContent = 'Erro: ' + (err.error || 'Desconhecido');
+      }
+    } catch (e) {
+      document.getElementById('form-message').textContent = 'Erro de rede. Tente novamente.';
     }
-  } catch (error) {
-    alert('Erro de conexão. Tente novamente.');
   }
-}
+
+  // Progress bar
+  async function carregarMeta() {
+    try {
+      const res = await fetch('https://cha-de-casa-nova-backend.vercel.app/api/meta');
+      const data = await res.json();
+      if (data && data.meta) meta = parseFloat(data.meta);
+    } catch (e) {
+      // keep default
+    }
+    // Calculate arrecadado from vendidos
+    arrecadado = produtos.reduce((acc, p) => acc + (p.cotas_vendidas * (p.preco / p.cotas_totais)), 0);
+    const percent = Math.min((arrecadado / meta) * 100, 100);
+    document.getElementById('preenchimento').style.width = percent + '%';
+    document.getElementById('meta-text').textContent = `Arrecadado: R$ ${arrecadado.toFixed(2)} de R$ ${meta.toFixed(2)} (${percent.toFixed(1)}%)`;
+  }
+
+  // Close modals on overlay click
+  document.querySelectorAll('.modal').forEach(modal => {
+    modal.addEventListener('click', function(e) {
+      if (e.target === this) this.style.display = 'none';
+    });
+  });
+
+  // Init
+  carregarProdutos().then(() => {
+    carregarMeta();
+    atualizarCarrinho();
+  });
 </script>
 </body>
 </html>
