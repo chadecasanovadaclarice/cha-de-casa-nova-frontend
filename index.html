@@ -56,6 +56,16 @@
     </div>
     <p class="meta-text" id="meta-text">Carregando meta...</p>
   </div>
+  <div style="margin: 20px 0; display: flex; gap: 10px; justify-content: center; align-items: center;">
+   <label for="ordenacao" style="font-weight: bold; color: #8b4513;">Ordenar por:</label>
+   <select id="ordenacao" onchange="aplicarOrdenacao()" style="padding: 8px 12px; border: 1px solid #8b4513; border-radius: 5px; cursor: pointer; font-size: 1em;">
+     <option value="original">Ordem Original</option>
+     <option value="nome-asc">Nome (A-Z)</option>
+     <option value="nome-desc">Nome (Z-A)</option>
+     <option value="preco-asc">Menor Preço</option>
+     <option value="preco-desc">Maior Preço</option>
+   </select>
+  </div>
   <div class="grid-produtos" id="grid-produtos"></div>
   <div class="cart" id="cart-section">
     <h2>Itens no Carrinho</h2>
@@ -97,6 +107,8 @@
 
 <script>
   // Global variables
+  let produtosGlobal = [];
+  let produtosOrdenados = [];
   let produtos = [];
   let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
   let userData = JSON.parse(localStorage.getItem('userData')) || {};
@@ -117,7 +129,9 @@
         cotas_totais: Math.floor(p.preco / 10),
         cotas_vendidas: p.cotas_vendidas || 0
       }));
-      renderizarProdutos();
+      produtosGlobal = [...produtos];
+      produtosOrdenados = [...produtos];
+      renderizarProdutos(produtosOrdenados);
       atualizarCarrinho();
     } catch (e) {
       console.error('Erro ao carregar produtos:', e);
@@ -126,10 +140,10 @@
   }
 
   // Render products grid
-  function renderizarProdutos() {
+  function renderizarProdutos(lista) {
     const grid = document.getElementById('grid-produtos');
     grid.innerHTML = '';
-    produtos.forEach((p, index) => {
+    lista.forEach((p, index) => {
       const div = document.createElement('div');
       div.className = 'produto';
       div.innerHTML = `
@@ -146,6 +160,31 @@
       grid.appendChild(div);
     });
   }
+
+  function ordenar(tipo) {
+    switch(tipo) {
+      case 'original':
+        produtosOrdenados = [...produtosGlobal];
+       break;
+     case 'nome-asc':
+       produtosOrdenados.sort((a, b) => a.nome.localeCompare(b.nome));
+       break;
+     case 'nome-desc':
+       produtosOrdenados.sort((a, b) => b.nome.localeCompare(a.nome));
+       break;
+     case 'preco-asc':
+       produtosOrdenados.sort((a, b) => a.preco - b.preco);
+       break;
+     case 'preco-desc':
+       produtosOrdenados.sort((a, b) => b.preco - a.preco);
+   }
+   renderizarProdutos(produtosOrdenados);
+  }
+
+function aplicarOrdenacao() {
+  const tipo = document.getElementById('ordenacao').value;
+  ordenar(tipo);
+}
 
   // Quantity controls
   function decrementar(index) {
