@@ -169,8 +169,12 @@
   async function carregarHistorico() {
     const data = await fetchAPI('doacoes');
     if (!data) return;
+  
+    // Converter objeto em array
+    const doacoesArray = data && typeof data === 'object' ? Object.values(data) : [];
+  
     const tbody = document.querySelector('#historicoTable tbody');
-    tbody.innerHTML = data.map(d => `
+    tbody.innerHTML = doacoesArray.map(d => `
       <tr>
         <td>${d.id}</td>
         <td>${d.nome}</td>
@@ -185,8 +189,12 @@
   async function carregarProdutos() {
     const data = await fetchAPI('produtos');
     if (!data) return;
+  
+    // Converter objeto em array
+    const produtosArray = data && typeof data === 'object' ? Object.values(data) : [];
+  
     const tbody = document.querySelector('#produtosTable tbody');
-    tbody.innerHTML = data.map(p => `
+    tbody.innerHTML = produtosArray.map(p => `
       <tr>
         <td>${p.id}</td>
         <td>${p.nome}</td>
