@@ -1,644 +1,329 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chá de Casa Nova – Lista de Presentes</title>
-    <!-- Google Fonts: Poppins --><br/>
-    <link rel="preconnect" href="https://fonts.googleapis.com" /><br/>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin /><br/>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-    <style>
-        /* ===== RESET & BASE ===== */
-        * {
-            margin: 0;<br/>
-            padding: 0;<br/>
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Poppins', sans-serif;<br/>
-            background: #f7f3f0;<br/>
-            color: #4a4a4a;<br/>
-            line-height: 1.6;<br/>
-            padding: 20px;<br/>
-            min-height: 100vh;
-        }
-        /* ===== HEADER ===== */
-        header {
-            text-align: center;<br/>
-            padding: 30px 20px 20px;<br/>
-            background: linear-gradient(135deg, #f8bbd0, #b3e5fc, #c8e6c9);<br/>
-            border-radius: 20px 20px 0 0;<br/>
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-        header h1 {
-            font-weight: 600;<br/>
-            font-size: 2.2rem;<br/>
-            color: #3c3c3c;<br/>
-            letter-spacing: -0.5px;
-        }
-        header p {
-            color: #5a5a5a;<br/>
-            font-weight: 300;<br/>
-            margin-top: 4px;
-        }
-        /* ===== MAIN LAYOUT ===== */
-        .app-wrapper {
-            display: flex;<br/>
-            gap: 30px;<br/>
-            max-width: 1400px;<br/>
-            margin: 30px auto 0;<br/>
-            align-items: flex-start;
-        }
-        .content-area {
-            flex: 1;<br/>
-            min-width: 0;
-        }
-        /* ===== TABS ===== */
-        .tabs {
-            display: flex;<br/>
-            flex-wrap: wrap;<br/>
-            gap: 8px;<br/>
-            margin-bottom: 24px;<br/>
-            background: white;<br/>
-            padding: 12px 16px;<br/>
-            border-radius: 16px;<br/>
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-        }
-        .tab-btn {
-            background: transparent;<br/>
-            border: none;<br/>
-            padding: 10px 22px;<br/>
-            font-family: 'Poppins', sans-serif;<br/>
-            font-weight: 500;<br/>
-            font-size: 0.95rem;<br/>
-            color: #7a7a7a;<br/>
-            border-radius: 30px;<br/>
-            cursor: pointer;<br/>
-            transition: all 0.2s;
-        }
-        .tab-btn:hover {<br/>
-            background: #f0eae7;
-        }
-        .tab-btn.active {
-            background: #f8bbd0;<br/>
-            color: #3c3c3c;<br/>
-            box-shadow: 0 2px 6px rgba(248, 187, 208, 0.4);
-        }
-        /* ===== PRODUCT GRID ===== */
-        .product-grid {
-            display: grid;<br/>
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));<br/>
-            gap: 20px;<br/>
-            margin-bottom: 40px;
-        }
-        .product-card {
-            background: white;<br/>
-            border-radius: 20px;<br/>
-            padding: 20px 18px 18px;<br/>
-            box-shadow: 0 4px 12px rgba(0,0,0,0.04);<br/>
-            transition: transform 0.2s, box-shadow 0.2s;<br/>
-            display: flex;<br/>
-            flex-direction: column;
-        }
-        .product-card:hover {<br/>
-            transform: translateY(-2px);<br/>
-            box-shadow: 0 8px 20px rgba(0,0,0,0.07);
-        }
-        .product-name {
-            font-weight: 600;<br/>
-            font-size: 1.15rem;<br/>
-            color: #2e2e2e;
-        }
-        .product-price {
-            font-weight: 500;<br/>
-            color: #5b8a7a;<br/>
-            margin: 4px 0 2px;
-        }
-        .product-cotas {
-            font-size: 0.9rem;<br/>
-            color: #888;
-        }
-        .product-desc {
-            font-size: 0.85rem;<br/>
-            color: #777;<br/>
-            margin: 8px 0 12px;<br/>
-            flex: 1;
-        }
-        .product-control {
-            display: flex;<br/>
-            align-items: center;<br/>
-            gap: 12px;<br/>
-            margin-top: auto;<br/>
-            padding-top: 12px;<br/>
-            border-top: 1px solid #f0ece8;
-        }
-        .product-control label {
-            font-size: 0.85rem;<br/>
-            color: #666;
-        }
-        .product-control input[type="number"] {
-            width: 72px;<br/>
-            padding: 6px 8px;<br/>
-            border: 1.5px solid #d6cfca;<br/>
-            border-radius: 12px;<br/>
-            font-family: 'Poppins', sans-serif;<br/>
-            font-size: 0.9rem;<br/>
-            text-align: center;<br/>
-            background: #faf8f6;<br/>
-            transition: border-color 0.2s;
-        }
-        .product-control input[type="number"]:focus {<br/>
-            outline: none;<br/>
-            border-color: #f8bbd0;
-        }
-        .product-control .available-text {
-            font-size: 0.8rem;<br/>
-            color: #9a9a9a;<br/>
-            min-width: 40px;
-        }
-        /* ===== CART (fixed right) ===== */
-        .cart-wrapper {
-            position: sticky;<br/>
-            top: 30px;<br/>
-            width: 320px;<br/>
-            flex-shrink: 0;<br/>
-            background: white;<br/>
-            border-radius: 24px;<br/>
-            padding: 24px 20px 20px;<br/>
-            box-shadow: 0 8px 28px rgba(0,0,0,0.06);<br/>
-            max-height: calc(100vh - 80px);<br/>
-            overflow-y: auto;
-        }
-        .cart-title {
-            font-weight: 600;<br/>
-            font-size: 1.3rem;<br/>
-            margin-bottom: 16px;<br/>
-            display: flex;<br/>
-            align-items: center;<br/>
-            gap: 10px;
-        }
-        .cart-title span {
-            font-weight: 400;<br/>
-            font-size: 0.9rem;<br/>
-            color: #999;<br/>
-            margin-left: auto;
-        }
-        .cart-items {
-            list-style: none;
-        }
-        .cart-item {
-            display: flex;<br/>
-            justify-content: space-between;<br/>
-            align-items: center;<br/>
-            padding: 10px 0;<br/>
-            border-bottom: 1px solid #f0edea;<br/>
-            font-size: 0.9rem;
-        }
-        .cart-item:last-child {<br/>
-            border-bottom: none;
-        }
-        .cart-item-name {
-            flex: 1;<br/>
-            font-weight: 400;
-        }
-        .cart-item-qty {
-            color: #888;<br/>
-            min-width: 50px;<br/>
-            text-align: center;
-        }
-        .cart-item-value {
-            font-weight: 500;<br/>
-            min-width: 70px;<br/>
-            text-align: right;
-        }
-        .cart-total {
-            display: flex;<br/>
-            justify-content: space-between;<br/>
-            font-weight: 600;<br/>
-            font-size: 1.1rem;<br/>
-            padding: 16px 0 8px;<br/>
-            border-top: 2px solid #f0ece8;<br/>
-            margin-top: 8px;
-        }
-        .cart-empty {
-            color: #bbb;<br/>
-            text-align: center;<br/>
-            padding: 30px 0;<br/>
-            font-size: 0.9rem;
-        }
-        .checkout-section {
-            margin-top: 18px;
-        }
-        .checkout-section input {
-            width: 100%;<br/>
-            padding: 10px 14px;<br/>
-            border: 1.5px solid #ddd8d3;<br/>
-            border-radius: 14px;<br/>
-            font-family: 'Poppins', sans-serif;<br/>
-            font-size: 0.9rem;<br/>
-            margin-bottom: 10px;<br/>
-            background: #fcfaf9;<br/>
-            transition: border-color 0.2s;
-        }
-        .checkout-section input:focus {<br/>
-            outline: none;<br/>
-            border-color: #b3e5fc;
-        }
-        .checkout-btn {
-            width: 100%;<br/>
-            padding: 12px;<br/>
-            background: #c8e6c9;<br/>
-            border: none;<br/>
-            border-radius: 30px;<br/>
-            font-family: 'Poppins', sans-serif;<br/>
-            font-weight: 600;<br/>
-            font-size: 1rem;<br/>
-            color: #2e5e4a;<br/>
-            cursor: pointer;<br/>
-            transition: background 0.2s, transform 0.1s;
-        }
-        .checkout-btn:hover {<br/>
-            background: #b8dbc9;
-        }
-        .checkout-btn:disabled {<br/>
-            opacity: 0.5;<br/>
-            cursor: not-allowed;
-        }
-        /* ===== SUCCESS MESSAGE ===== */
-        .success-overlay {
-            display: none;<br/>
-            position: fixed;<br/>
-            top: 0; left: 0; right: 0; bottom: 0;<br/>
-            background: rgba(0,0,0,0.3);<br/>
-            backdrop-filter: blur(6px);<br/>
-            z-index: 999;<br/>
-            justify-content: center;<br/>
-            align-items: center;
-        }
-        .success-box {
-            background: white;<br/>
-            max-width: 460px;<br/>
-            width: 90%;<br/>
-            border-radius: 32px;<br/>
-            padding: 40px 30px;<br/>
-            box-shadow: 0 20px 50px rgba(0,0,0,0.15);<br/>
-            text-align: center;<br/>
-            animation: fadeIn 0.3s ease;
-        }
-        .success-box h2 {
-            color: #5b8a7a;<br/>
-            font-weight: 600;
-        }
-        .success-box ul {
-            text-align: left;<br/>
-            margin: 16px 0 20px;<br/>
-            padding-left: 20px;<br/>
-            font-size: 0.95rem;<br/>
-            color: #4a4a4a;
-        }
-        .success-box button {
-            background: #f8bbd0;<br/>
-            border: none;<br/>
-            padding: 10px 30px;<br/>
-            border-radius: 30px;<br/>
-            font-weight: 500;<br/>
-            font-size: 1rem;<br/>
-            cursor: pointer;<br/>
-            color: #3c3c3c;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.95); }<br/>
-            to { opacity: 1; transform: scale(1); }
-        }
-        /* ===== FOOTER ===== */
-        footer {
-            text-align: center;<br/>
-            padding: 30px 20px 10px;<br/>
-            color: #aaa;<br/>
-            font-size: 0.85rem;<br/>
-            margin-top: 20px;
-        }
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 1024px) {
-            .app-wrapper {
-                flex-direction: column;
-            }
-            .cart-wrapper {
-                position: static;<br/>
-                width: 100%;<br/>
-                max-height: none;<br/>
-                margin-top: 30px;
-            }
-            .product-grid {
-                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            }
-        }
-        @media (max-width: 600px) {<br/>
-            header h1 { font-size: 1.7rem; }<br/>
-            .tabs { padding: 8px 10px; gap: 4px; }<br/>
-            .tab-btn { padding: 8px 14px; font-size: 0.8rem; }<br/>
-            .product-grid { gap: 14px; }<br/>
-            .product-card { padding: 14px; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chá de Casa Nova da Clarice</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; background: #faf3e0; color: #333; padding: 20px; }
+    h1 { text-align: center; color: #8b4513; margin-bottom: 20px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .progresso { background: #fff; border-radius: 8px; padding: 20px; margin-bottom: 30px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .barra { background: #ddd; border-radius: 20px; height: 30px; overflow: hidden; }
+    .preenchimento { height: 100%; background: linear-gradient(90deg, #ff7e5f, #feb47b); width: 0%; transition: width 0.3s; }
+    .meta-text { margin-top: 10px; font-size: 0.9em; color: #555; }
+    .grid-produtos { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+    .produto { background: #fff; border-radius: 8px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: flex; flex-direction: column; }
+    .produto h3 { margin-bottom: 10px; color: #8b4513; }
+    .preco { font-size: 1.2em; font-weight: bold; color: #2e8b57; margin-bottom: 5px; }
+    .cotas { font-size: 0.9em; color: #666; margin-bottom: 15px; }
+    .controles { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .controles button { width: 36px; height: 36px; border: none; border-radius: 50%; font-size: 1.2em; cursor: pointer; background: #8b4513; color: #fff; transition: 0.2s; }
+    .controles button:disabled { background: #ccc; cursor: not-allowed; }
+    .controles span { font-size: 1.1em; min-width: 30px; text-align: center; }
+    .comprar { background: #2e8b57; color: #fff; border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-size: 1em; transition: 0.2s; }
+    .comprar:hover { background: #236b43; }
+    .cart { background: #fff; border-radius: 8px; padding: 20px; margin-top: 30px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .cart h2 { color: #8b4513; margin-bottom: 15px; }
+    .lista-carrinho { list-style: none; padding: 0; }
+    .lista-carrinho li { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee; }
+    .finalizar { background: #d2691e; color: #fff; border: none; padding: 12px 20px; border-radius: 5px; cursor: pointer; font-size: 1.1em; margin-top: 15px; display: block; width: 100%; transition: 0.2s; }
+    .finalizar:hover { background: #a0522d; }
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; }
+    .modal-content { background: #fff; border-radius: 8px; padding: 30px; max-width: 400px; width: 90%; text-align: center; }
+    .modal-content h2 { color: #8b4513; margin-bottom: 20px; }
+    .modal-content p { margin-bottom: 10px; }
+    .modal-content .pix-key { font-size: 1.5em; font-weight: bold; color: #2e8b57; margin: 15px 0; }
+    .btns { display: flex; gap: 10px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
+    .btns button, .btns a { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 1em; transition: 0.2s; }
+    .btns button { background: #8b4513; color: #fff; }
+    .btns button:hover { background: #a0522d; }
+    .btns .secondary { background: #6c757d; }
+    .btns .secondary:hover { background: #5a6268; }
+    .form input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
+    .form button { width: 100%; padding: 10px; background: #2e8b57; color: #fff; border: none; border-radius: 5px; cursor: pointer; font-size: 1em; }
+    .form button:hover { background: #236b43; }
+    .error { color: red; font-size: 0.9em; }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>🎁 Chá de Casa Nova</h1>
-        <p>Ajude a montar o lar — cada cota equivale a R$ 50</p>
-    </header>
-
-    <div class="app-wrapper">
-        <!-- Área principal com abas e produtos -->
-        <div class="content-area">
-            <div class="tabs" id="tabsContainer"></div>
-            <div id="productGrid" class="product-grid"></div>
-        </div>
-
-        <!-- Carrinho fixo (sticky) -->
-        <aside class="cart-wrapper" id="cartWrapper">
-            <div class="cart-title">
-                🛒 Carrinho
-                <span id="cartCount">0 itens</span>
-            </div>
-            <div id="cartList" class="cart-items"></div>
-            <div class="cart-total">
-                <span>Total</span>
-                <span id="cartTotal">R$ 0,00</span>
-            </div>
-            <div class="checkout-section">
-                <input type="text" id="checkoutName" placeholder="Seu nome" required />
-                <input type="email" id="checkoutEmail" placeholder="Seu e-mail" required />
-                <button class="checkout-btn" id="checkoutBtn" disabled>Confirmar contribuição</button>
-            </div>
-        </aside>
+<div class="container">
+  <h1>Chá de Casa Nova da Clarice</h1>
+  <div class="progresso" id="progresso">
+    <div class="barra">
+      <div class="preenchimento" id="preenchimento"></div>
     </div>
+    <p class="meta-text" id="meta-text">Carregando meta...</p>
+  </div>
+  <div class="grid-produtos" id="grid-produtos"></div>
+  <div class="cart" id="cart-section">
+    <h2>Itens no Carrinho</h2>
+    <ul class="lista-carrinho" id="lista-carrinho"></ul>
+    <p id="cart-total">Total: R$ 0,00</p>
+    <button class="finalizar" id="finalizar-btn" onclick="abrirModalPix()">Finalizar Doação</button>
+  </div>
+</div>
 
-    <!-- Modal de sucesso -->
-    <div class="success-overlay" id="successOverlay">
-        <div class="success-box">
-            <h2>🎉 Obrigada pela contribuição!</h2>
-            <p id="successSummary"></p>
-            <button onclick="closeSuccess()">Fechar</button>
-        </div>
+<!-- Modal PIX -->
+<div id="modal-pix" class="modal">
+  <div class="modal-content">
+    <h2>Doação via PIX</h2>
+    <p><strong>Clarice Moreira Pinheiro</strong></p>
+    <p>Chave PIX:</p>
+    <p class="pix-key" id="pix-key">21995303711</p>
+    <p>Valor total: <strong id="pix-valor">R$ 0,00</strong></p>
+    <div class="btns">
+      <button onclick="copiarPix()">Copiar Chave</button>
+      <button class="secondary" onclick="abrirModalForm()">Já Paguei</button>
+      <button class="secondary" onclick="fecharModal('modal-pix')">Fechar</button>
     </div>
+  </div>
+</div>
 
-    <footer>
-        <p>Feito com carinho para um novo lar 💛</p>
-    </footer>
+<!-- Modal Formulário -->
+<div id="modal-form" class="modal">
+  <div class="modal-content">
+    <h2>Confirmar Doação</h2>
+    <form id="form-doacao" onsubmit="enviarDoacao(event)">
+      <input type="text" id="nome" placeholder="Seu nome" required>
+      <input type="email" id="email" placeholder="Seu email" required>
+      <button type="submit">Enviar Confirmação</button>
+      <p id="form-message" class="error"></p>
+    </form>
+    <button class="secondary" onclick="fecharModal('modal-form')">Cancelar</button>
+  </div>
+</div>
 
-    <script>
-        // ===== DADOS DOS PRODUTOS =====
-        const products = [
-            // Eletrônicos
-            { id: 1, name: 'Máquina de lavar', price: 2200, category: 'Eletrônicos', desc: 'Lavagem eficiente, 12kg' },<br/>
-            { id: 2, name: 'Geladeira', price: 2600, category: 'Eletrônicos', desc: 'Frost free, 350L' },<br/>
-            { id: 3, name: 'Microondas', price: 600, category: 'Eletrônicos', desc: '30L, painel digital' },<br/>
-            { id: 4, name: 'Forno', price: 1200, category: 'Eletrônicos', desc: 'Elétrico, 60L' },<br/>
-            { id: 5, name: 'Ferro de passar', price: 150, category: 'Eletrônicos', desc: 'A vapor, cerâmica' },<br/>
-            { id: 6, name: 'Liquidificador', price: 250, category: 'Eletrônicos', desc: '500W, copo 2L' },<br/>
-            { id: 7, name: 'Batedeira', price: 300, category: 'Eletrônicos', desc: 'Planetária, 4 velocidades' },<br/>
-            { id: 8, name: 'Máquina de suco', price: 400, category: 'Eletrônicos', desc: 'Centrífuga, inox' },<br/>
-            { id: 9, name: 'Aspirador de pó', price: 800, category: 'Eletrônicos', desc: 'Ciclônico, 1500W' },
-            // Cozinha
-            { id: 10, name: 'Panelas de indução', price: 350, category: 'Cozinha', desc: 'Jogo 5 peças' },<br/>
-            { id: 11, name: 'Jogo de facas', price: 120, category: 'Cozinha', desc: '6 facas profissionais' },<br/>
-            { id: 12, name: 'Copos', price: 80, category: 'Cozinha', desc: 'Kit 12 copos 300ml' },<br/>
-            { id: 13, name: 'Panos de prato', price: 40, category: 'Cozinha', desc: 'Lote 5 unidades' },<br/>
-            { id: 14, name: 'Espátulas de cozinha', price: 60, category: 'Cozinha', desc: 'Jogo 3 espátulas' },<br/>
-            { id: 15, name: 'Colher de pau', price: 30, category: 'Cozinha', desc: '4 peças' },
-            // Mesa
-            { id: 16, name: 'Jogo de talheres', price: 150, category: 'Mesa', desc: '60 peças inox' },<br/>
-            { id: 17, name: 'Tábua de corte', price: 50, category: 'Mesa', desc: 'Polipropileno 40x30cm' },<br/>
-            { id: 18, name: 'Mesa de jantar', price: 1500, category: 'Mesa', desc: '6 lugares, tampo vidro' },
-            // Limpeza
-            { id: 19, name: 'Pano de chão', price: 30, category: 'Limpeza', desc: 'Pacote 10 panos' },<br/>
-            { id: 20, name: 'Vassoura e rodo', price: 70, category: 'Limpeza', desc: 'Kit completo' },<br/>
-            { id: 21, name: 'Baldes', price: 100, category: 'Limpeza', desc: '3 tamanhos' },<br/>
-            { id: 22, name: 'Lixeiras', price: 150, category: 'Limpeza', desc: '3 lixeiras sortidas' },<br/>
-            { id: 23, name: 'Cesto de roupa suja', price: 80, category: 'Limpeza', desc: '60L, tampa' },<br/>
-            { id: 24, name: 'Treco de secar salada', price: 25, category: 'Limpeza', desc: 'Plástico resistente' },
-            // Têxteis
-            { id: 25, name: 'Travesseiros', price: 200, category: 'Têxteis', desc: 'Par de travesseiros' },<br/>
-            { id: 26, name: 'Mantas', price: 150, category: 'Têxteis', desc: '2 mantas microfibra' },<br/>
-            { id: 27, name: 'Saboneteira', price: 40, category: 'Têxteis', desc: 'Porcelana/plástico' },
-            // Decoração
-            { id: 28, name: 'Plantas', price: 60, category: 'Decoração', desc: '3 vasos artificiais' },<br/>
-            { id: 29, name: 'Tapetes infantis', price: 200, category: 'Decoração', desc: '2 tapetes estampados' },<br/>
-            { id: 30, name: 'Adesivos parede', price: 50, category: 'Decoração', desc: 'Kit adesivos decorativos' },
-        ];
+<script>
+  // Global variables
+  let produtos = [];
+  let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+  let userData = JSON.parse(localStorage.getItem('userData')) || {};
+  let meta = 12035;
+  let arrecadado = 0;
 
-        // ===== ESTADO =====
-        const categories = [...new Set(products.map(p => p.category))];
-        let activeCategory = categories[0];
-        // Para cada produto: total cotas = Math.ceil(price/50)
-        products.forEach(p => {
-            p.totalCotas = Math.ceil(p.price / 50);
-            p.available = p.totalCotas;   // cotas disponíveis para seleção
-            p.selected = 0;              // cotas selecionadas no carrinho
-        });
+  // Fetch products
+  async function carregarProdutos() {
+    try {
+      const res = await fetch('https://cha-de-casa-nova-backend.vercel.app/api/produtos');
+      let data = await res.json();
+      if (!Array.isArray(data)) {
+        data = Object.values(data);
+      }
+      produtos = data.map((p) => ({
+        nome: p.nome,
+        preco: p.preco,
+        cotas_totais: Math.floor(p.preco / 10),
+        cotas_vendidas: p.cotas_vendidas || 0
+      }));
+      renderizarProdutos();
+      atualizarCarrinho();
+    } catch (e) {
+      console.error('Erro ao carregar produtos:', e);
+      document.getElementById('grid-produtos').innerHTML = '<p>Erro ao carregar produtos.</p>';
+    }
+  }
 
-        // Referências DOM
-        const tabsContainer = document.getElementById('tabsContainer');
-        const grid = document.getElementById('productGrid');
-        const cartList = document.getElementById('cartList');
-        const cartTotalEl = document.getElementById('cartTotal');
-        const cartCountEl = document.getElementById('cartCount');
-        const checkoutName = document.getElementById('checkoutName');
-        const checkoutEmail = document.getElementById('checkoutEmail');
-        const checkoutBtn = document.getElementById('checkoutBtn');
-        const successOverlay = document.getElementById('successOverlay');
-        const successSummary = document.getElementById('successSummary');
+  // Render products grid
+  function renderizarProdutos() {
+    const grid = document.getElementById('grid-produtos');
+    grid.innerHTML = '';
+    produtos.forEach((p, index) => {
+      const div = document.createElement('div');
+      div.className = 'produto';
+      div.innerHTML = `
+        <h3>${p.nome}</h3>
+        <p class="preco">R$ ${p.preco.toFixed(2)}</p>
+        <p class="cotas">Cotas: vendidas ${p.cotas_vendidas} de ${p.cotas_totais} | disponíveis ${p.cotas_totais - p.cotas_vendidas}</p>
+        <div class="controles">
+          <button id="dec-${index}" onclick="decrementar(${index})">-</button>
+          <span id="qtd-${index}">0</span>
+          <button id="inc-${index}" onclick="incrementar(${index})">+</button>
+        </div>
+        <button class="comprar" onclick="adicionarAoCarrinho(${index})">Comprar</button>
+      `;
+      grid.appendChild(div);
+    });
+  }
 
-        // ===== FUNÇÕES DE RENDER =====
+  // Quantity controls
+  function decrementar(index) {
+    const span = document.getElementById(`qtd-${index}`);
+    let qtd = parseInt(span.textContent);
+    if (qtd > 0) {
+      qtd--;
+      span.textContent = qtd;
+      atualizarBotoes(index);
+    }
+  }
 
-        // Render abas
-        function renderTabs() {
-            tabsContainer.innerHTML = '';
-            categories.forEach(cat => {
-                const btn = document.createElement('button');
-                btn.className = 'tab-btn' + (cat === activeCategory ? ' active' : '');
-                btn.textContent = cat;
-                btn.dataset.category = cat;
-                btn.addEventListener('click', () => {
-                    activeCategory = cat;
-                    renderTabs();
-                    renderProducts();
-                });
-                tabsContainer.appendChild(btn);
-            });
-        }
+  function incrementar(index) {
+    const prod = produtos[index];
+    const span = document.getElementById(`qtd-${index}`);
+    let qtd = parseInt(span.textContent);
+    const disponivel = prod.cotas_totais - prod.cotas_vendidas;
+    if (qtd < disponivel) {
+      qtd++;
+      span.textContent = qtd;
+      atualizarBotoes(index);
+    }
+  }
 
-        // Render produtos da categoria ativa
-        function renderProducts() {
-            const filtered = products.filter(p => p.category === activeCategory);
-            grid.innerHTML = '';
-            filtered.forEach(product => {
-                const card = document.createElement('div');
-                card.className = 'product-card';
-                card.dataset.id = product.id;
+  function atualizarBotoes(index) {
+    const prod = produtos[index];
+    const qtd = parseInt(document.getElementById(`qtd-${index}`).textContent);
+    const disponivel = prod.cotas_totais - prod.cotas_vendidas;
+    document.getElementById(`dec-${index}`).disabled = (qtd === 0);
+    document.getElementById(`inc-${index}`).disabled = (qtd >= disponivel);
+  }
 
-                const name = document.createElement('div');
-                name.className = 'product-name';
-                name.textContent = product.name;
+  // Cart management
+  function adicionarAoCarrinho(index) {
+    const prod = produtos[index];
+    const qtd = parseInt(document.getElementById(`qtd-${index}`).textContent);
+    if (qtd === 0) return;
+    const valor_item = (prod.preco / prod.cotas_totais) * qtd;
+    const itemCarrinho = carrinho.find(item => item.nome === prod.nome);
+    if (itemCarrinho) {
+      itemCarrinho.quantidade_cotas += qtd;
+      itemCarrinho.valor += valor_item;
+    } else {
+      carrinho.push({
+        nome: prod.nome,
+        quantidade_cotas: qtd,
+        valor: valor_item
+      });
+    }
+    localStorage.setItem('carrinho', JSON.stringify(carrinho));
+    // Reset quantity for that product
+    document.getElementById(`qtd-${index}`).textContent = '0';
+    atualizarBotoes(index);
+    atualizarCarrinho();
+  }
 
-                const price = document.createElement('div');
-                price.className = 'product-price';
-                price.textContent = `R$ ${product.price.toFixed(2)}`;
+  function atualizarCarrinho() {
+    const lista = document.getElementById('lista-carrinho');
+    const totalEl = document.getElementById('cart-total');
+    lista.innerHTML = '';
+    let total = 0;
+    carrinho.forEach((item, idx) => {
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <span>${item.nome} (${item.quantidade_cotas} cotas)</span>
+        <span>R$ ${item.valor.toFixed(2)}</span>
+        <button style="background:red; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;" onclick="removerDoCarrinho(${idx})">X</button>
+      `;
+      lista.appendChild(li);
+      total += item.valor;
+    });
+    totalEl.textContent = `Total: R$ ${total.toFixed(2)}`;
+    // Enable/disable finalizar button
+    document.getElementById('finalizar-btn').disabled = (carrinho.length === 0);
+  }
 
-                const cotas = document.createElement('div');
-                cotas.className = 'product-cotas';
-                cotas.textContent = `${product.totalCotas} cotas (cada R$ 50)`;
+  function removerDoCarrinho(index) {
+    carrinho.splice(index, 1);
+    localStorage.setItem('carrinho', JSON.stringify(carrinho));
+    atualizarCarrinho();
+  }
 
-                const desc = document.createElement('div');
-                desc.className = 'product-desc';
-                desc.textContent = product.desc;
+  // PIX Modal
+  function abrirModalPix() {
+    if (carrinho.length === 0) return;
+    const total = carrinho.reduce((acc, item) => acc + item.valor, 0);
+    document.getElementById('pix-valor').textContent = `R$ ${total.toFixed(2)}`;
+    document.getElementById('modal-pix').style.display = 'flex';
+  }
 
-                const control = document.createElement('div');
-                control.className = 'product-control';
+  function copiarPix() {
+    const chave = '21995303711';
+    navigator.clipboard.writeText(chave).then(() => {
+      alert('Chave PIX copiada!');
+    }).catch(() => {
+      alert('Erro ao copiar. Copie manualmente: 21995303711');
+    });
+  }
 
-                const label = document.createElement('label');
-                label.textContent = 'Cotas:';
-                const input = document.createElement('input');
-                input.type = 'number';
-                input.min = 0;
-                input.max = product.available;
-                input.value = product.selected;
-                input.dataset.id = product.id;
+  function abrirModalForm() {
+    fecharModal('modal-pix');
+    if (userData.nome) document.getElementById('nome').value = userData.nome;
+    if (userData.email) document.getElementById('email').value = userData.email;
+    document.getElementById('form-message').textContent = '';
+    document.getElementById('modal-form').style.display = 'flex';
+  }
 
-                const availableSpan = document.createElement('span');
-                availableSpan.className = 'available-text';
-                availableSpan.textContent = `disp: ${product.available}`;
+  function fecharModal(id) {
+    document.getElementById(id).style.display = 'none';
+  }
 
-                input.addEventListener('change', function() {
-                    let val = parseInt(this.value, 10);
-                    if (isNaN(val) || val < 0) val = 0;
-                    const max = parseInt(this.max, 10);
-                    if (val > max) val = max;
-                    this.value = val;
-                    // Atualiza estado
-                    const prod = products.find(p => p.id === product.id);
-                    const diff = val - prod.selected;
-                    if (diff > 0 && diff <= prod.available) {
-                        prod.selected = val;
-                        prod.available -= diff;
-                    } else if (diff < 0) {
-                        prod.selected = val;
-                        prod.available -= diff; // diff negativo => aumenta available
-                    } else {
-                        // Caso contrário, recua
-                        this.value = prod.selected;
-                        return;
-                    }
-                    // Atualiza max e available display
-                    this.max = prod.available + prod.selected; // total = available + selected
-                    availableSpan.textContent = `disp: ${prod.available}`;
-                    // Re-render carrinho
-                    renderCart();
-                    updateCheckoutButton();
-                });
+  // Submit donation
+  async function enviarDoacao(event) {
+    event.preventDefault();
+    const nome = document.getElementById('nome').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const total = carrinho.reduce((acc, item) => acc + item.valor, 0);
+    const itens = carrinho.map(item => ({
+      nome: item.nome,
+      quantidade_cotas: item.quantidade_cotas,
+      valor: item.valor
+    }));
+    const data = new Date().toISOString();
+    const body = { nome, email, itens, total, data };
 
-                // Atualiza o max dinâmico quando o input é focado (para refletir estado)
-                input.addEventListener('focus', function() {
-                    const prod = products.find(p => p.id === product.id);
-                    this.max = prod.available + prod.selected;
-                });
+    try {
+      const res = await fetch('https://cha-de-casa-nova-backend.vercel.app/api/doacao', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+      if (res.ok) {
+        alert('Doação enviada com sucesso!');
+        // Save user data
+        userData = { nome, email };
+        localStorage.setItem('userData', JSON.stringify(userData));
+        // Clear cart
+        carrinho = [];
+        localStorage.removeItem('carrinho');
+        atualizarCarrinho();
+        fecharModal('modal-form');
+      } else {
+        const err = await res.json();
+        document.getElementById('form-message').textContent = 'Erro: ' + (err.error || 'Desconhecido');
+      }
+    } catch (e) {
+      document.getElementById('form-message').textContent = 'Erro de rede. Tente novamente.';
+    }
+  }
 
-                control.appendChild(label);
-                control.appendChild(input);
-                control.appendChild(availableSpan);
+  // Progress bar
+  async function carregarMeta() {
+    try {
+      const res = await fetch('https://cha-de-casa-nova-backend.vercel.app/api/meta');
+      const data = await res.json();
+      if (data && data.meta) meta = parseFloat(data.meta);
+    } catch (e) {
+      // keep default
+    }
+    // Calculate arrecadado from vendidos
+    arrecadado = produtos.reduce((acc, p) => acc + (p.cotas_vendidas * (p.preco / p.cotas_totais)), 0);
+    const percent = Math.min((arrecadado / meta) * 100, 100);
+    document.getElementById('preenchimento').style.width = percent + '%';
+    document.getElementById('meta-text').textContent = `Arrecadado: R$ ${arrecadado.toFixed(2)} de R$ ${meta.toFixed(2)} (${percent.toFixed(1)}%)`;
+  }
 
-                card.appendChild(name);
-                card.appendChild(price);
-                card.appendChild(cotas);
-                card.appendChild(desc);
-                card.appendChild(control);
-                grid.appendChild(card);
-            });
-        }
+  // Close modals on overlay click
+  document.querySelectorAll('.modal').forEach(modal => {
+    modal.addEventListener('click', function(e) {
+      if (e.target === this) this.style.display = 'none';
+    });
+  });
 
-        // Render carrinho
-        function renderCart() {
-            const selectedItems = products.filter(p => p.selected > 0);
-            cartList.innerHTML = '';
-            if (selectedItems.length === 0) {
-                cartList.innerHTML = '<div class="cart-empty">Nenhum item selecionado</div>';
-                cartTotalEl.textContent = 'R$ 0,00';
-                cartCountEl.textContent = '0 itens';
-                return;
-            }
-            let totalValue = 0;
-            let totalQty = 0;
-            selectedItems.forEach(prod => {
-                const li = document.createElement('div');
-                li.className = 'cart-item';
-                const nameSpan = document.createElement('span');
-                nameSpan.className = 'cart-item-name';
-                nameSpan.textContent = prod.name;
-                const qtySpan = document.createElement('span');
-                qtySpan.className = 'cart-item-qty';
-                qtySpan.textContent = `${prod.selected}x`;
-                const valSpan = document.createElement('span');
-                valSpan.className = 'cart-item-value';
-                const partial = prod.selected * 50;
-                valSpan.textContent = `R$ ${partial.toFixed(2)}`;
-                li.appendChild(nameSpan);
-                li.appendChild(qtySpan);
-                li.appendChild(valSpan);
-                cartList.appendChild(li);
-                totalValue += partial;
-                totalQty += prod.selected;
-            });
-            cartTotalEl.textContent = `R$ ${totalValue.toFixed(2)}`;
-            cartCountEl.textContent = `${totalQty} ${totalQty === 1 ? 'item' : 'itens'}`;
-        }
-
-        // Atualiza botão checkout (habilita se há itens + campos preenchidos)
-        function updateCheckoutButton() {
-            const hasItems = products.some(p => p.selected > 0);
-            const nameOk = checkoutName.value.trim() !== '';
-            const emailOk = checkoutEmail.value.trim() !== '' && checkoutEmail.validity.valid;
-            checkoutBtn.disabled = !(hasItems && nameOk && emailOk);
-        }
-
-        // ===== EVENTOS CHECKOUT =====
-        checkoutName.addEventListener('input', updateCheckoutButton);
-        checkoutEmail.addEventListener('input', updateCheckoutButton);
-
-        checkoutBtn.addEventListener('click', function() {
-            const name = checkoutName.value.trim();
-            const email = checkoutEmail.value.trim();
-            if (!name || !email) return;
-
-            // Monta resumo
-            const selected = products.filter(p => p.selected > 0);
-            let summaryHTML = `<strong>Contribuidor(a):</strong> ${name}<br><strong>E-mail:</strong> ${email}<br><br><strong>Itens escolhidos:</strong><ul>`;
-            let totalVal = 0;
-            selected.forEach(p => {
-                const partial = p.selected * 50;
-                summaryHTML += `<li>${p.name} – ${p.selected} cotas (R$ ${partial.toFixed(2)})</li>`;
-                totalVal += partial;
-            });
-            summaryHTML += `</ul><strong>Total contribuído: R$ ${totalVal.toFixed(2)}</strong>`;
-            successSummary.innerHTML = summaryHTML;
-            successOverlay.style.display = 'flex';
-        });
-
-        function closeSuccess() {
-            successOverlay.style.display = 'none';
-        }
-
-        // Fechar overlay clicando fora
-        successOverlay.addEventListener('click', function(e) {
-            if (e.target === this) closeSuccess();
-        });
-
-        // ===== INICIALIZAÇÃO =====
-        renderTabs();
-        renderProducts();
-        renderCart();
-        updateCheckoutButton();
-    </script>
+  // Init
+  carregarProdutos().then(() => {
+    carregarMeta();
+    atualizarCarrinho();
+  });
+</script>
 </body>
 </html>
