@@ -134,7 +134,7 @@
   async function fetchAPI(endpoint, options = {}) {
     const token = getToken();
     if (!token) { logout(); return null; }
-    const url = `/api/admin/${endpoint}?token=${token}`;
+    const url = `https://cha-de-casa-nova-backend.vercel.app/api/admin/${endpoint}?token=${token}`;
     try {
       const response = await fetch(url, options);
       if (!response.ok) {
