@@ -212,6 +212,7 @@
       li.innerHTML = `
         <span>${item.nome} (${item.quantidade_cotas} cotas)</span>
         <span>R$ ${item.valor.toFixed(2)}</span>
+        <button style="background:red; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;" onclick="removerDoCarrinho(${idx})">X</button>
       `;
       lista.appendChild(li);
       total += item.valor;
@@ -219,6 +220,12 @@
     totalEl.textContent = `Total: R$ ${total.toFixed(2)}`;
     // Enable/disable finalizar button
     document.getElementById('finalizar-btn').disabled = (carrinho.length === 0);
+  }
+
+  function removerDoCarrinho(index) {
+    carrinho.splice(index, 1);
+    localStorage.setItem('carrinho', JSON.stringify(carrinho));
+    atualizarCarrinho();
   }
 
   // PIX Modal
