@@ -1,407 +1,290 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard Administrativo - Chá de Casa Nova</title>
-<style>
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, Helvetica, sans-serif; }
-body { background: #f4f4f9; color: #333; }
-.container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-.card { background: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }
-.grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
-.btn { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; transition: background 0.3s; }
-.btn-primary { background: #3498db; color: #fff; }
-.btn-primary:hover { background: #2980b9; }
-.btn-danger { background: #e74c3c; color: #fff; }
-.btn-danger:hover { background: #c0392b; }
-.btn-success { background: #27ae60; color: #fff; }
-.btn-success:hover { background: #1e8449; }
-.btn-warning { background: #f39c12; color: #fff; }
-.btn-warning:hover { background: #d68910; }
-.btn-sm { padding: 5px 10px; font-size: 14px; }
-.tabela { width: 100%; border-collapse: collapse; }
-.tabela th, .tabela td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
-.tabela th { background: #f2f2f2; font-weight: bold; }
-.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; }
-.modal-content { background: #fff; padding: 30px; border-radius: 8px; width: 90%; max-width: 500px; }
-.modal-content h2 { margin-bottom: 20px; }
-.modal-content label { display: block; margin-bottom: 5px; font-weight: bold; }
-.modal-content input, .modal-content select { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; }
-.modal-content .btn-group { display: flex; gap: 10px; justify-content: flex-end; }
-.login-box { max-width: 400px; margin: 100px auto; text-align: center; }
-.login-box input { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; }
-.erro { color: #e74c3c; margin-bottom: 10px; }
-.pagination { display: flex; gap: 5px; margin-top: 10px; justify-content: center; }
-.pagination button { padding: 5px 10px; border: 1px solid #ccc; background: #fff; cursor: pointer; border-radius: 3px; }
-.pagination button.active { background: #3498db; color: #fff; border-color: #3498db; }
-@media (max-width: 600px) {
-  .grid-4 { grid-template-columns: 1fr; }
-  .tabela { font-size: 14px; }
-  .tabela th, .tabela td { padding: 8px; }
-  .modal-content { padding: 20px; }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Chá de Casa Nova</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
+    .container { max-width: 1200px; margin: auto; }
+    h1, h2 { color: #333; margin-bottom: 10px; }
+    .login-box { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); max-width: 400px; margin: 100px auto; }
+    .login-box h1 { text-align: center; margin-bottom: 20px; }
+    .login-box input { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; }
+    .login-box button { width: 100%; padding: 10px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
+    .login-box button:hover { background: #0056b3; }
+    .dashboard { display: none; }
+    .metricas { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 30px; }
+    .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); flex: 1; min-width: 200px; text-align: center; }
+    .card h3 { margin-bottom: 10px; color: #555; }
+    .card p { font-size: 24px; font-weight: bold; color: #007bff; }
+    .btn { padding: 8px 16px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; margin: 5px; }
+    .btn:hover { background: #0056b3; }
+    .btn-danger { background: #dc3545; }
+    .btn-danger:hover { background: #a71d2a; }
+    .btn-secondary { background: #6c757d; }
+    .btn-secondary:hover { background: #5a6268; }
+    .section { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 30px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+    th { background: #f8f9fa; }
+    .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background: rgba(0,0,0,0.5); }
+    .modal-content { background: white; margin: 10% auto; padding: 20px; border-radius: 8px; max-width: 500px; }
+    .modal-content h2 { margin-bottom: 15px; }
+    .modal-content input, .modal-content select, .modal-content button { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; }
+    .modal-content button { margin-top: 5px; }
+    .close { float: right; font-size: 24px; cursor: pointer; }
+    .close:hover { color: red; }
+    @media (max-width: 600px) {
+      .metricas { flex-direction: column; }
+      table { font-size: 14px; }
+    }
+  </style>
 </head>
 <body>
-<div class="container" id="app">
-  <!-- Login -->
-  <div id="login-section" class="login-box card">
-    <h2>Login Administrativo</h2>
-    <div id="login-erro" class="erro"></div>
-    <input type="password" id="token-input" placeholder="Digite o token de acesso" />
-    <button class="btn btn-primary" id="login-btn" onclick="login()">Entrar</button>
+<div class="container">
+  <div id="loginSection" class="login-box">
+    <h1>Admin - Chá de Casa Nova</h1>
+    <input type="text" id="tokenInput" placeholder="Token de acesso" />
+    <button onclick="login()">Entrar</button>
+    <p id="loginError" style="color:red;display:none;">Token inválido</p>
   </div>
 
-  <!-- Dashboard (hidden until login) -->
-  <div id="dashboard-section" style="display:none;">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-      <h1>Dashboard Administrativo - Chá de Casa Nova</h1>
-      <div>
-        <button class="btn btn-primary" onclick="carregarDados()">Atualizar</button>
-        <button class="btn btn-danger" onclick="logout()">Sair</button>
-      </div>
-    </div>
+  <div id="dashboardSection" class="dashboard">
+    <h1>Dashboard Administrativo</h1>
+    <button class="btn" onclick="carregarDados()">Atualizar Dados</button>
+    <button class="btn btn-danger" onclick="logout()" style="float:right;">Sair</button>
+    <div style="clear:both;"></div>
 
-    <!-- Métricas -->
-    <div class="card">
-      <h2>Métricas</h2>
-      <div class="grid-4" id="metricas-cards">
-        <div class="card"><strong>Total Arrecadado</strong><br><span id="total-arrecadado">-</span></div>
-        <div class="card"><strong>Meta</strong><br><span id="meta">-</span></div>
-        <div class="card"><strong>Percentual</strong><br><span id="percentual">-</span></div>
-        <div class="card"><strong>Contagem Doadores</strong><br><span id="contagem-doadores">-</span></div>
-      </div>
-    </div>
+    <div id="metricasContainer" class="metricas"></div>
 
-    <!-- Histórico -->
-    <div class="card">
+    <div class="section">
       <h2>Histórico de Doações</h2>
-      <div style="overflow-x: auto;">
-        <table class="tabela" id="tabela-historico">
-          <thead>
-            <tr><th>Data</th><th>Doador</th><th>Email</th><th>Total (R$)</th><th>Itens</th></tr>
-          </thead>
-          <tbody id="historico-body"></tbody>
-        </table>
-      </div>
-      <div class="pagination" id="historico-pagination"></div>
+      <table id="historicoTable">
+        <thead><tr><th>ID</th><th>Nome</th><th>Email</th><th>Total</th><th>Data</th><th>Itens</th></tr></thead>
+        <tbody></tbody>
+      </table>
     </div>
 
-    <!-- Gerenciar Produtos -->
-    <div class="card">
-      <h2>Gerenciar Produtos</h2>
-      <button class="btn btn-success" onclick="abrirModalAdicionar()" style="margin-bottom: 15px;">Adicionar Produto</button>
-      <div style="overflow-x: auto;">
-        <table class="tabela" id="tabela-produtos">
-          <thead>
-            <tr><th>ID</th><th>Nome</th><th>Preço</th><th>Cotas Totais</th><th>Cotas Vendidas</th><th>Status</th><th>Ações</th></tr>
-          </thead>
-          <tbody id="produtos-body"></tbody>
-        </table>
-      </div>
+    <div class="section">
+      <h2>Produtos</h2>
+      <button class="btn" onclick="abrirModalAdicionar()">Adicionar Produto</button>
+      <table id="produtosTable">
+        <thead><tr><th>ID</th><th>Nome</th><th>Preço</th><th>Cotas Totais</th><th>Cotas Vendidas</th><th>Status</th><th>Ações</th></tr></thead>
+        <tbody></tbody>
+      </table>
     </div>
   </div>
-</div>
 
-<!-- Modal Adicionar Produto -->
-<div id="modal-adicionar" class="modal">
-  <div class="modal-content">
-    <h2>Adicionar Produto</h2>
-    <form id="form-adicionar">
-      <label for="add-nome">Nome</label>
-      <input type="text" id="add-nome" required>
-      <label for="add-preco">Preço</label>
-      <input type="number" id="add-preco" step="0.01" required>
-      <div class="btn-group">
-        <button type="button" class="btn btn-primary" onclick="salvarProduto()">Salvar</button>
-        <button type="button" class="btn btn-warning" onclick="fecharModal('modal-adicionar')">Cancelar</button>
-      </div>
-    </form>
+  <!-- Modal Adicionar Produto -->
+  <div id="modalAdicionar" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="fecharModal('modalAdicionar')">&times;</span>
+      <h2>Adicionar Produto</h2>
+      <input type="text" id="addNome" placeholder="Nome do produto" />
+      <input type="number" step="0.01" id="addPreco" placeholder="Preço" />
+      <button class="btn" onclick="adicionarProduto()">Salvar</button>
+    </div>
   </div>
-</div>
 
-<!-- Modal Editar Produto -->
-<div id="modal-editar" class="modal">
-  <div class="modal-content">
-    <h2>Editar Produto</h2>
-    <form id="form-editar">
-      <input type="hidden" id="edit-id">
-      <label for="edit-nome">Nome</label>
-      <input type="text" id="edit-nome" required>
-      <label for="edit-preco">Preço</label>
-      <input type="number" id="edit-preco" step="0.01" required>
-      <label for="edit-status">Status</label>
-      <select id="edit-status">
-        <option value="disponivel">Disponível</option>
-        <option value="esgotado">Esgotado</option>
+  <!-- Modal Editar Produto -->
+  <div id="modalEditar" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="fecharModal('modalEditar')">&times;</span>
+      <h2>Editar Produto</h2>
+      <input type="hidden" id="editId" />
+      <input type="text" id="editNome" placeholder="Nome do produto" />
+      <input type="number" step="0.01" id="editPreco" placeholder="Preço" />
+      <select id="editStatus">
+        <option value="ativo">Ativo</option>
+        <option value="inativo">Inativo</option>
       </select>
-      <div class="btn-group">
-        <button type="button" class="btn btn-primary" onclick="atualizarProduto()">Salvar</button>
-        <button type="button" class="btn btn-warning" onclick="fecharModal('modal-editar')">Cancelar</button>
-      </div>
-    </form>
+      <button class="btn" onclick="editarProduto()">Salvar</button>
+    </div>
   </div>
 </div>
 
 <script>
-// Configuração
-const API_BASE = ''; // Coloque a URL base da API se necessário, ex: 'https://api.exemplo.com'
+  function login() {
+    const token = document.getElementById('tokenInput').value.trim();
+    if (token === 'Naname2026!') {
+      sessionStorage.setItem('adminToken', token);
+      document.getElementById('loginSection').style.display = 'none';
+      document.getElementById('dashboardSection').style.display = 'block';
+      document.getElementById('loginError').style.display = 'none';
+      carregarDados();
+    } else {
+      document.getElementById('loginError').style.display = 'block';
+    }
+  }
 
-// Função para obter headers com token
-function getHeaders() {
-  const token = sessionStorage.getItem('adminToken');
-  return {
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${token}`
+  function logout() {
+    sessionStorage.removeItem('adminToken');
+    document.getElementById('dashboardSection').style.display = 'none';
+    document.getElementById('loginSection').style.display = 'block';
+    document.getElementById('tokenInput').value = '';
+    document.getElementById('loginError').style.display = 'none';
+  }
+
+  function getToken() {
+    return sessionStorage.getItem('adminToken');
+  }
+
+  async function fetchAPI(endpoint, options = {}) {
+    const token = getToken();
+    if (!token) { logout(); return null; }
+    const url = `/api/admin/${endpoint}?token=${token}`;
+    try {
+      const response = await fetch(url, options);
+      if (!response.ok) {
+        if (response.status === 401) { logout(); alert('Token inválido'); return null; }
+        throw new Error('Erro na requisição');
+      }
+      return await response.json();
+    } catch (error) {
+      alert('Erro ao conectar com o servidor: ' + error.message);
+      return null;
+    }
+  }
+
+  function carregarDados() {
+    carregarMetricas();
+    carregarHistorico();
+    carregarProdutos();
+  }
+
+  async function carregarMetricas() {
+    const data = await fetchAPI('dashboard');
+    if (!data) return;
+    const container = document.getElementById('metricasContainer');
+    container.innerHTML = `
+      <div class="card"><h3>Total Arrecadado</h3><p>R$ ${data.total_arrecadado.toFixed(2)}</p></div>
+      <div class="card"><h3>Meta</h3><p>R$ ${data.meta.toFixed(2)}</p></div>
+      <div class="card"><h3>Percentual</h3><p>${data.percentual.toFixed(2)}%</p></div>
+      <div class="card"><h3>Doadores</h3><p>${data.contagem_doadores}</p></div>
+    `;
+  }
+
+  async function carregarHistorico() {
+    const data = await fetchAPI('doacoes');
+    if (!data) return;
+    const tbody = document.querySelector('#historicoTable tbody');
+    tbody.innerHTML = data.map(d => `
+      <tr>
+        <td>${d.id}</td>
+        <td>${d.nome}</td>
+        <td>${d.email}</td>
+        <td>R$ ${d.total.toFixed(2)}</td>
+        <td>${new Date(d.data).toLocaleDateString('pt-BR')}</td>
+        <td>${d.itens}</td>
+      </tr>
+    `).join('');
+  }
+
+  async function carregarProdutos() {
+    const data = await fetchAPI('produtos');
+    if (!data) return;
+    const tbody = document.querySelector('#produtosTable tbody');
+    tbody.innerHTML = data.map(p => `
+      <tr>
+        <td>${p.id}</td>
+        <td>${p.nome}</td>
+        <td>R$ ${p.preco.toFixed(2)}</td>
+        <td>${p.cotas_totais}</td>
+        <td>${p.cotas_vendidas}</td>
+        <td>${p.status}</td>
+        <td>
+          <button class="btn btn-secondary" onclick="abrirModalEditar(${p.id}, '${p.nome.replace(/'/g, "\\'")}', ${p.preco}, '${p.status}')">Editar</button>
+          <button class="btn btn-danger" onclick="deletarProduto(${p.id})">Deletar</button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  function abrirModalAdicionar() {
+    document.getElementById('addNome').value = '';
+    document.getElementById('addPreco').value = '';
+    document.getElementById('modalAdicionar').style.display = 'block';
+  }
+
+  function abrirModalEditar(id, nome, preco, status) {
+    document.getElementById('editId').value = id;
+    document.getElementById('editNome').value = nome;
+    document.getElementById('editPreco').value = preco;
+    document.getElementById('editStatus').value = status;
+    document.getElementById('modalEditar').style.display = 'block';
+  }
+
+  function fecharModal(id) {
+    document.getElementById(id).style.display = 'none';
+  }
+
+  async function adicionarProduto() {
+    const nome = document.getElementById('addNome').value.trim();
+    const preco = parseFloat(document.getElementById('addPreco').value);
+    if (!nome || isNaN(preco) || preco <= 0) {
+      alert('Preencha nome e preço válidos.');
+      return;
+    }
+    const result = await fetchAPI('produtos', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nome, preco })
+    });
+    if (result) {
+      fecharModal('modalAdicionar');
+      carregarProdutos();
+    }
+  }
+
+  async function editarProduto() {
+    const id = document.getElementById('editId').value;
+    const nome = document.getElementById('editNome').value.trim();
+    const preco = parseFloat(document.getElementById('editPreco').value);
+    const status = document.getElementById('editStatus').value;
+    if (!nome || isNaN(preco) || preco <= 0) {
+      alert('Preencha nome e preço válidos.');
+      return;
+    }
+    const token = getToken();
+    const url = `/api/admin/produtos?id=${id}&token=${token}`;
+    try {
+      const response = await fetch(url, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nome, preco, status })
+      });
+      if (!response.ok) throw new Error('Erro ao editar');
+      fecharModal('modalEditar');
+      carregarProdutos();
+    } catch (error) {
+      alert('Erro ao editar produto: ' + error.message);
+    }
+  }
+
+  async function deletarProduto(id) {
+    if (!confirm('Tem certeza que deseja deletar este produto?')) return;
+    const token = getToken();
+    const url = `/api/admin/produtos?id=${id}&token=${token}`;
+    try {
+      const response = await fetch(url, { method: 'DELETE' });
+      if (!response.ok) throw new Error('Erro ao deletar');
+      carregarProdutos();
+    } catch (error) {
+      alert('Erro ao deletar produto: ' + error.message);
+    }
+  }
+
+  // Verifica se já está logado ao carregar a página
+  window.onload = function() {
+    const token = getToken();
+    if (token) {
+      document.getElementById('loginSection').style.display = 'none';
+      document.getElementById('dashboardSection').style.display = 'block';
+      carregarDados();
+    }
   };
-}
-
-// Login
-function login() {
-  const token = document.getElementById('token-input').value.trim();
-  if (!token) {
-    document.getElementById('login-erro').innerText = 'Por favor, digite o token.';
-    return;
-  }
-  // Salva token
-  sessionStorage.setItem('adminToken', token);
-  document.getElementById('login-erro').innerText = '';
-  document.getElementById('login-section').style.display = 'none';
-  document.getElementById('dashboard-section').style.display = 'block';
-  carregarDados();
-}
-
-function logout() {
-  sessionStorage.removeItem('adminToken');
-  document.getElementById('dashboard-section').style.display = 'none';
-  document.getElementById('login-section').style.display = 'block';
-  document.getElementById('token-input').value = '';
-}
-
-// Verificar login ao carregar
-window.onload = function() {
-  const token = sessionStorage.getItem('adminToken');
-  if (token) {
-    document.getElementById('login-section').style.display = 'none';
-    document.getElementById('dashboard-section').style.display = 'block';
-    carregarDados();
-  }
-};
-
-// Carregar dados
-function carregarDados() {
-  carregarMetricas();
-  carregarHistorico(1);
-  carregarProdutos();
-}
-
-// Métricas
-function carregarMetricas() {
-  // Simulação de chamada API - substitua pela endpoint real
-  const url = `${API_BASE}/api/admin/metricas`;
-  fetch(url, { headers: getHeaders() })
-    .then(res => res.json())
-    .then(data => {
-      document.getElementById('total-arrecadado').innerText = `R$ ${data.total_arrecadado.toFixed(2)}`;
-      document.getElementById('meta').innerText = `R$ ${data.meta.toFixed(2)}`;
-      document.getElementById('percentual').innerText = `${data.percentual.toFixed(2)}%`;
-      document.getElementById('contagem-doadores').innerText = data.contagem_doadores;
-    })
-    .catch(err => {
-      console.error('Erro ao carregar métricas:', err);
-      // Fallback para dados mockados (apenas para demonstração)
-      document.getElementById('total-arrecadado').innerText = 'R$ 12.500,00';
-      document.getElementById('meta').innerText = 'R$ 20.000,00';
-      document.getElementById('percentual').innerText = '62,50%';
-      document.getElementById('contagem-doadores').innerText = '45';
-    });
-}
-
-// Histórico com paginação
-let currentPage = 1;
-let totalPages = 1;
-
-function carregarHistorico(page) {
-  currentPage = page;
-  const url = `${API_BASE}/api/admin/historico?page=${page}&limit=10`;
-  fetch(url, { headers: getHeaders() })
-    .then(res => res.json())
-    .then(data => {
-      const tbody = document.getElementById('historico-body');
-      tbody.innerHTML = '';
-      data.dados.forEach(item => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${item.data}</td><td>${item.doador}</td><td>${item.email}</td><td>R$ ${item.total.toFixed(2)}</td><td>${item.itens}</td>`;
-        tbody.appendChild(tr);
-      });
-      totalPages = data.totalPages || 1;
-      renderPagination();
-    })
-    .catch(err => {
-      console.error('Erro ao carregar histórico:', err);
-      // Fallback
-      const tbody = document.getElementById('historico-body');
-      tbody.innerHTML = '<tr><td colspan="5">Erro ao carregar dados</td></tr>';
-    });
-}
-
-function renderPagination() {
-  const pagination = document.getElementById('historico-pagination');
-  pagination.innerHTML = '';
-  for (let i = 1; i <= totalPages; i++) {
-    const btn = document.createElement('button');
-    btn.innerText = i;
-    if (i === currentPage) btn.className = 'active';
-    btn.onclick = () => carregarHistorico(i);
-    pagination.appendChild(btn);
-  }
-}
-
-// Produtos
-function carregarProdutos() {
-  const url = `${API_BASE}/api/admin/produtos`;
-  fetch(url, { headers: getHeaders() })
-    .then(res => res.json())
-    .then(data => {
-      const tbody = document.getElementById('produtos-body');
-      tbody.innerHTML = '';
-      data.forEach(prod => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${prod.id}</td>
-          <td>${prod.nome}</td>
-          <td>R$ ${prod.preco.toFixed(2)}</td>
-          <td>${prod.cotas_totais}</td>
-          <td>${prod.cotas_vendidas}</td>
-          <td>${prod.status}</td>
-          <td>
-            <button class="btn btn-warning btn-sm" onclick="abrirModalEditar(${prod.id})">Editar</button>
-            <button class="btn btn-danger btn-sm" onclick="deletarProduto(${prod.id})">Deletar</button>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
-    })
-    .catch(err => {
-      console.error('Erro ao carregar produtos:', err);
-      const tbody = document.getElementById('produtos-body');
-      tbody.innerHTML = '<tr><td colspan="7">Erro ao carregar produtos</td></tr>';
-    });
-}
-
-// Modais
-function abrirModal(id) {
-  document.getElementById(id).style.display = 'flex';
-}
-
-function fecharModal(id) {
-  document.getElementById(id).style.display = 'none';
-}
-
-function abrirModalAdicionar() {
-  document.getElementById('add-nome').value = '';
-  document.getElementById('add-preco').value = '';
-  abrirModal('modal-adicionar');
-}
-
-let produtoEditandoId = null;
-
-function abrirModalEditar(id) {
-  produtoEditandoId = id;
-  // Buscar dados do produto para preencher
-  const url = `${API_BASE}/api/admin/produtos?id=${id}`;
-  fetch(url, { headers: getHeaders() })
-    .then(res => res.json())
-    .then(prod => {
-      document.getElementById('edit-id').value = prod.id;
-      document.getElementById('edit-nome').value = prod.nome;
-      document.getElementById('edit-preco').value = prod.preco;
-      document.getElementById('edit-status').value = prod.status;
-      abrirModal('modal-editar');
-    })
-    .catch(err => {
-      console.error('Erro ao buscar produto:', err);
-      alert('Erro ao carregar dados do produto');
-    });
-}
-
-// CRUD
-function salvarProduto() {
-  const nome = document.getElementById('add-nome').value.trim();
-  const preco = parseFloat(document.getElementById('add-preco').value);
-  if (!nome || isNaN(preco)) {
-    alert('Preencha todos os campos corretamente.');
-    return;
-  }
-  const url = `${API_BASE}/api/admin/produtos`;
-  fetch(url, {
-    method: 'POST',
-    headers: getHeaders(),
-    body: JSON.stringify({ nome, preco })
-  })
-  .then(res => {
-    if (!res.ok) throw new Error('Erro ao criar produto');
-    return res.json();
-  })
-  .then(() => {
-    fecharModal('modal-adicionar');
-    carregarProdutos();
-  })
-  .catch(err => {
-    console.error(err);
-    alert('Erro ao criar produto. Verifique o console.');
-  });
-}
-
-function atualizarProduto() {
-  const id = document.getElementById('edit-id').value;
-  const nome = document.getElementById('edit-nome').value.trim();
-  const preco = parseFloat(document.getElementById('edit-preco').value);
-  const status = document.getElementById('edit-status').value;
-  if (!nome || isNaN(preco)) {
-    alert('Preencha todos os campos corretamente.');
-    return;
-  }
-  const url = `${API_BASE}/api/admin/produtos?id=${id}`;
-  fetch(url, {
-    method: 'PUT',
-    headers: getHeaders(),
-    body: JSON.stringify({ nome, preco, status })
-  })
-  .then(res => {
-    if (!res.ok) throw new Error('Erro ao atualizar produto');
-    return res.json();
-  })
-  .then(() => {
-    fecharModal('modal-editar');
-    carregarProdutos();
-  })
-  .catch(err => {
-    console.error(err);
-    alert('Erro ao atualizar produto.');
-  });
-}
-
-function deletarProduto(id) {
-  if (!confirm('Tem certeza que deseja deletar este produto?')) return;
-  const url = `${API_BASE}/api/admin/produtos?id=${id}`;
-  fetch(url, {
-    method: 'DELETE',
-    headers: getHeaders()
-  })
-  .then(res => {
-    if (!res.ok) throw new Error('Erro ao deletar produto');
-    return res.json();
-  })
-  .then(() => {
-    carregarProdutos();
-  })
-  .catch(err => {
-    console.error(err);
-    alert('Erro ao deletar produto.');
-  });
-}
 </script>
 </body>
 </html>
